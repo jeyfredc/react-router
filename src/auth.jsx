@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { Navigate, useNavigate } from "react-router-dom"
+import { Navigate, useLocation, useNavigate } from "react-router-dom"
 
 const adminList = [
     'Jeyfredc', 'LorenaM', 'OscarB'
@@ -10,14 +10,16 @@ const AuthContext = React.createContext()
 function AuthProvider({ children }) {
 
     const navigate = useNavigate()
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null)     
+    const location = useLocation();
+    const from = location.state?.from || "/";
 
     const login = (username) => {
         const isAdmin = adminList.find(admin => admin === username)
         setUser({
             username, isAdmin
         })
-        navigate("/profile")
+        navigate(from, { replace: true });
     }
 
     const logout = () => {
@@ -45,8 +47,9 @@ function useAuth() {
 
 function AuthRoute(props){
     const auth = useAuth()
+    const location = useLocation()
     if(!auth.user){
-        return <Navigate to="/login"/>
+        return <Navigate to="/login" state={{ from: location }} replace/>
     }
     return props.children
 }

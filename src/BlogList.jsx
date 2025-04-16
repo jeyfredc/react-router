@@ -6,11 +6,25 @@ const BlogList = () => {
 
   const navigate = useNavigate()
   const [showList, setShowList]= useState(false)
-  
+  const [blogs, setBlogs] = useState(blogData)
 
   const returnFormBlog = () =>{
     navigate("/createBlog")
   }
+
+  const onDeleteBlog = (slug) =>{
+    console.log(slug)
+    console.log(blogData)
+    
+    const filteredBlogs = blogData.filter(blogColumn => blogColumn.slug !== slug);
+    console.log(filteredBlogs)
+    setBlogs(filteredBlogs)
+  }
+
+  const onEditBlog = (slug) =>{
+    navigate(`/editBlog/${slug}`)
+  }
+
   return (
     <>
     <div>
@@ -36,14 +50,14 @@ const BlogList = () => {
           </tr>
         </thead>
         <tbody>
-          {blogData.map((blogColumn) => (
+          {blogs.map((blogColumn) => (
             <tr key={blogColumn.title}>
               <td>{blogColumn.title}</td>
               <td>{blogColumn.slug}</td>
               <td>{blogColumn.content}</td>
               <td>
-                <button>Editar</button>
-                <button>Eliminar</button>
+                <button onClick={() => onEditBlog(blogColumn.slug)}>Editar</button>
+                <button onClick={() => onDeleteBlog(blogColumn.slug)}>Eliminar</button>
               </td>
             </tr>
           ))}

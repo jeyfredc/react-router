@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation, redirect } from "react-router-dom";
 import "./App.css";
 import { HomePage } from "./HomePage";
 import { BlogPage } from "./BlogPage";
@@ -7,10 +7,13 @@ import { Menu } from "./Menu";
 import { BlogPost } from "./BlogPost";
 import { LoginPage } from "./LoginPage";
 import { LogoutPage } from "./LogoutPage";
-import { AuthProvider, AuthRoute } from "./auth";
+import { AuthProvider, AuthRoute, useAuth } from "./auth";
 import BlogList from "./BlogList";
 import FormBlog from "./FormBlog";
+import { EditBlog } from "./EditBlog";
 function App() {
+
+
   return (
     <>
       <HashRouter>
@@ -63,6 +66,14 @@ function App() {
               element={
                 <AuthRoute>
                   <FormBlog />
+                </AuthRoute>
+              }
+            />
+            <Route
+              path="/editBlog/:slug"
+              element={
+                <AuthRoute>
+                  <EditBlog />
                 </AuthRoute>
               }
             />
